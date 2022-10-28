@@ -1,15 +1,16 @@
-% Analysis for Chapter 3: Hindlimb Proprioception
+%% Analysis for for Duman & Azizi (2022)
 
-% Questions of Interest:
-% 1) Does elbow extension differ after nerve reinnervation? (extension rate, onset timing, & extension at
-%    touchdown)
-% 2) Is hindlimb/ankle extension affected by nerve reinnervation? (extension rate,
-%    duration, & at touchdown)
+%% Questions of Interest
+% 1) Does elbow extension differ after nerve reinnervation? 
+%    (extension rate, onset timing, & extension at touchdown)
+% 2) Is hindlimb/ankle extension affected by nerve reinnervation? 
+%    (extension rate, duration, & at touchdown)
 % 3) Do activity of the Anconeus & Plataris change as a result of nerve
-%    reinnervation? (timing of onset of plantaris prior to takeoff & anconeus prior to landing/after takeoff)
+%    reinnervation? (timing of onset of plantaris prior to takeoff &
+%    anconeus prior to landing/after takeoff)
 
-%Read in Timing Data
-Frames = readtable('Hindlimb Proprioception Timing.xlsx','Sheet',2,'Range','A:I');
+% Read in Timing Data
+Frames = readtable('Hindlimb_Proprioception_Timing.xlsx','Sheet',2,'Range','A:I');
 
 % If inactive muscle times have already been saved then load them in
 if exist('t_muscle.mat') > 0
