@@ -26,11 +26,11 @@ for i = 524:size(Frames,1) % 1:size(Frames,1) to analyze all jumps
 
 % QUESTION 1
     % Elbow Extension Rates
-%     [Elbow_ang{i,1},dElbow_ang{i,1},avg_dElbExt(i,1),ElbExt_td(i,1),time_ElbExt_to(i,1),time_ElbExt_td(i,1)] = Calc_Elbow_Ext(Kin{i,1},times{i,1},i); % elbow (forelimb)
+    [Elbow_ang{i,1},dElbow_ang{i,1},avg_dElbExt(i,1),ElbExt_td(i,1),time_ElbExt_to(i,1),time_ElbExt_td(i,1)] = Calc_Elbow_Ext(Kin{i,1},times{i,1},i); % elbow (forelimb)
 
 % QUESTION 2
     % Hindlimb & Ankle Extension Rates
-%     [hLER{i,1},dhLER{i,1},avg_dhLER_to(i,1),max_dhLER_to(i,1),dhLER_to(i,1),t_HLflexes(i,1)] = Calc_hLER(Kin{i,1},times{i,1},L_hleg(i,1),i); % hindlimb
+    [hLER{i,1},dhLER{i,1},avg_dhLER_to(i,1),max_dhLER_to(i,1),dhLER_to(i,1),t_HLflexes(i,1)] = Calc_hLER(Kin{i,1},times{i,1},L_hleg(i,1),i); % hindlimb
 
 % QUESTION 3
     % Read & Analyze EMG Data (if exists)
@@ -41,11 +41,11 @@ for i = 524:size(Frames,1) % 1:size(Frames,1) to analyze all jumps
         cd(Folder); % return to original directory
         
         E{i,1} = Trim_Igor(Igor,times{i,1});
-%         if exist('t_muscle.mat') > 0 % use saved t_muscle values
-%             [EMG_smooth{i,1},Plant_thresh{i,1},Anc_thresh{i,1},Plant_act_dur_to{i,1},Anc_ON_HLliftOff{i,1},Anc_act_dur_air{i,1},~] = Process_EMG(E{i,1},times{i,1},i,t_muscle{i,1});
-%         else
+        if exist('t_muscle.mat') > 0 % use saved t_muscle values
+            [EMG_smooth{i,1},Plant_thresh{i,1},Anc_thresh{i,1},Plant_act_dur_to{i,1},Anc_ON_HLliftOff{i,1},Anc_act_dur_air{i,1},~] = Process_EMG(E{i,1},times{i,1},i,t_muscle{i,1});
+        else
             [EMG_smooth{i,1},Plant_thresh{i,1},Anc_thresh{i,1},Plant_act_dur_to{i,1},Anc_ON_HLliftOff{i,1},Anc_act_dur_air{i,1},t_muscle{i,1}] = Process_EMG(E{i,1},times{i,1},i);
-%         end
+        end
         
     end
 
@@ -64,8 +64,7 @@ end
 Export_pt1 = Frames(:,1:3);
 
 % Add variables of interst on to Export Table
-% AAA_Export = [Export_pt1, table(toad,avg_dElbExt,ElbExt_td,time_ElbExt_to,time_ElbExt_td,avg_dhLER_to,max_dhLER_to,dhLER_to,t_HLflexes,avg_belt_vel,takeoff_vel,jump_dist,Plant_act_dur_to,Anc_ON_HLliftOff,Anc_act_dur_air)];
-AAA_Export = [Export_pt1, table(toad,Plant_act_dur_to,Anc_ON_HLliftOff,Anc_act_dur_air)];
+AAA_Export = [Export_pt1, table(toad,avg_dElbExt,ElbExt_td,time_ElbExt_to,time_ElbExt_td,avg_dhLER_to,max_dhLER_to,dhLER_to,t_HLflexes,avg_belt_vel,takeoff_vel,jump_dist,Plant_act_dur_to,Anc_ON_HLliftOff,Anc_act_dur_air)];
 disp('Finished Analyzing ALL Trials!!!');
 
 %% Saving Output Files
