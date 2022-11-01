@@ -23,10 +23,10 @@ function Table = Analysis_and_Plot_Reflexes(trial,Plot)
 %              phase of ankle motion with corresponding red/blue color.
 
 %% Read in and Find Data of Interest
-Igor = readtable(['Reflex_Data' filesep trial,'_Igor.csv']);
+Igor = readtable(['Reflex Data' filesep trial,'_Igor.csv']);
 I = table2array(Igor);
 % column 1 is EMG, 2 is Force, 3 is Length, and 4 is Trigger
-Kin = readtable(['Reflex_Data' filesep trial,'_xypts.csv']);
+Kin = readtable(['Reflex Data' filesep trial,'_xypts.csv']);
 K = table2array(Kin);
 % [x-,y-Pt1, x-,y-Pt2, x-,y-Pt3, x-,y-Pt4]
 % looking for angle between segments AB and CD 

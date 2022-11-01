@@ -147,7 +147,7 @@ for j = 1:length(statsVars)
        cData_res,{D.condNum},'random',[], 'continuous',[], 'model',...
        'interaction', 'varnames',{'condNum'}, 'display', 'off');
     [pairwiseComps_c{1,j},MeansSE_c,~,groupNames_c{1,j}] = multcompare(anovaStats{j},...
-        'ctype', 'bonferroni','Dimension',[1],'display','off');
+        'ctype', 'tukey-kramer','Dimension',[1],'display','off');
           
 % setting up raincloud plot
     figH= figure;
@@ -169,10 +169,13 @@ for j = 1:length(statsVars)
     set(gca,'YTickLabel',fliplr({'pre' 'sham' 'post'}),'YTickLabelRotation',45)
     c_ax = gca;
     set(c_ax,'Box','on','Color','none','FontName','Times New Roman');
-   
+
     set(figH,'InvertHardcopy','off');
     figFilename = ['C:\Users\AJD44\Desktop\Chapter 3\Code\Figures\' statsVars{1,j}(6:end) '_RainCloud_' date '.eps'];
-%     saveas(figH,figFilename,'epsc')
+%     saveas(figH,figFilename,'epsc') % Make sure distribution clouds are 
+    % plotted as lines with plot() and the raindrops are plotted using 
+    % plot() rather than scatter() to save as vector image (.eps), check in 
+    % Plot_RainClouds function
 %     close(figH)
 end
 
@@ -333,7 +336,11 @@ for j = 1:size(Lit_vals,2)
     set(figH,'InvertHardcopy','off');
     figFilename = ['C:\Users\AJD44\Desktop\Chapter 3\Code\Figures\' cVname '_RainCloud_' date '.eps'];
     figure(figH)
-%     saveas(figH,figFilename,'epsc')
+%     saveas(figH,figFilename,'epsc') % Make sure distribution clouds are 
+    % plotted as lines with plot() and the raindrops are plotted using 
+    % plot() rather than scatter() to save as vector image (.eps), check in 
+    % Plot_RainClouds function
+%     close(figH)
  end
 
 %% FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -446,11 +453,13 @@ for i = 1:nper
         if j == i % only plot data for specific condtion
             if size(data{i,j},1)>1
                 % plot patches
-%               plot(verts{i,j}(:,1),verts{i,j}(:,2),'-','Color',colours(j,:)); % use if only want outline of cloud distribution
                 patch([verts{i,j}(1:100,1), fliplr(verts{i,j}(1:100,1))], [verts{i,j}(101:200,2), fliplr(verts{i,j}(1:100,2))], colours(j,:),'FaceAlpha',0.5, 'EdgeColor','none')
+%                 plot(verts{i,j}(:,1),verts{i,j}(:,2),'-','Color',colours(j,:)); % use if only want outline of cloud distribution
+                
 
                 % scatter plot of raindrops
                 scatter(data{i,j}, -jit{i,j} + ks_offsets(i), sz, 'MarkerFaceColor', colours(j,:), 'MarkerEdgeColor','none', 'MarkerFaceAlpha', 0.5);
+%                 plot(data{i,j}, -jit{i,j} + ks_offsets(i), '.','MarkerEdgeColor',colours(j,:),'MarkerSize',sz) % Need to use this if you want to save figure as .eps vector image
             end
         end
     end

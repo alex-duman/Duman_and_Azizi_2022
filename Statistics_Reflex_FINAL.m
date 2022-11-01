@@ -159,7 +159,7 @@ for j = 1:length(ReflexVars)
        {D.Condition}...
         ,'random',[], 'continuous',[], 'model', 'interaction', 'varnames',...
         {'condNum'}, 'display', 'off');
-    [pairwiseComps_c{j},MeansSE_c,~,groupNames_c] = multcompare(anovaStats{j},'ctype', 'bonferroni','Dimension',[1],'display','off');
+    [pairwiseComps_c{j},MeansSE_c,~,groupNames_c] = multcompare(anovaStats{j},'ctype', 'tukey-kramer','Dimension',[1],'display','off');
 
     % Plot the means in a bar plot with 95% Confidence Intervals as error bars
     mean_values = Table_Reflex.Mean([1:size(conditions,1)]+size(conditions,1)*(j-1));

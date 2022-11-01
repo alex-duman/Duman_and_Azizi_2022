@@ -13,11 +13,11 @@
 Frames = readtable('Hindlimb_Proprioception_Timing.xlsx','Sheet',2,'Range','A:I');
 
 % If inactive muscle times have already been saved then load them in
-if exist('t_muscle.mat') > 0
-    load t_muscle.mat
-end
+% if exist('t_muscle.mat') > 0
+%     load t_muscle.mat
+% end
 
-for i = 1:size(Frames,1) % 1:size(Frames,1) to analyze all jumps
+for i = 524:size(Frames,1) % 1:size(Frames,1) to analyze all jumps
     % Calculating times of interest for jump
     times{i,1} = Find_Times(Frames,i);
     
@@ -26,11 +26,11 @@ for i = 1:size(Frames,1) % 1:size(Frames,1) to analyze all jumps
 
 % QUESTION 1
     % Elbow Extension Rates
-    [Elbow_ang{i,1},dElbow_ang{i,1},avg_dElbExt(i,1),ElbExt_td(i,1),time_ElbExt_to(i,1),time_ElbExt_td(i,1)] = Calc_Elbow_Ext(Kin{i,1},times{i,1},i); % elbow (forelimb)
+%     [Elbow_ang{i,1},dElbow_ang{i,1},avg_dElbExt(i,1),ElbExt_td(i,1),time_ElbExt_to(i,1),time_ElbExt_td(i,1)] = Calc_Elbow_Ext(Kin{i,1},times{i,1},i); % elbow (forelimb)
 
 % QUESTION 2
     % Hindlimb & Ankle Extension Rates
-    [hLER{i,1},dhLER{i,1},avg_dhLER_to(i,1),max_dhLER_to(i,1),dhLER_to(i,1),t_HLflexes(i,1)] = Calc_hLER(Kin{i,1},times{i,1},L_hleg(i,1),i); % hindlimb
+%     [hLER{i,1},dhLER{i,1},avg_dhLER_to(i,1),max_dhLER_to(i,1),dhLER_to(i,1),t_HLflexes(i,1)] = Calc_hLER(Kin{i,1},times{i,1},L_hleg(i,1),i); % hindlimb
 
 % QUESTION 3
     % Read & Analyze EMG Data (if exists)
@@ -41,12 +41,11 @@ for i = 1:size(Frames,1) % 1:size(Frames,1) to analyze all jumps
         cd(Folder); % return to original directory
         
         E{i,1} = Trim_Igor(Igor,times{i,1});
-        if exist('t_muscle.mat') > 0
-            % use saved t_inactive values
-            [EMG_smooth{i,1},Plant_thresh{i,1},Anc_thresh{i,1},Plant_act_dur_to{i,1},Anc_ON_HLliftOff{i,1},Anc_act_dur_air{i,1},~] = Process_EMG(E{i,1},times{i,1},i,t_muscle{i,1});
-        else
+%         if exist('t_muscle.mat') > 0 % use saved t_muscle values
+%             [EMG_smooth{i,1},Plant_thresh{i,1},Anc_thresh{i,1},Plant_act_dur_to{i,1},Anc_ON_HLliftOff{i,1},Anc_act_dur_air{i,1},~] = Process_EMG(E{i,1},times{i,1},i,t_muscle{i,1});
+%         else
             [EMG_smooth{i,1},Plant_thresh{i,1},Anc_thresh{i,1},Plant_act_dur_to{i,1},Anc_ON_HLliftOff{i,1},Anc_act_dur_air{i,1},t_muscle{i,1}] = Process_EMG(E{i,1},times{i,1},i);
-        end
+%         end
         
     end
 
@@ -65,8 +64,8 @@ end
 Export_pt1 = Frames(:,1:3);
 
 % Add variables of interst on to Export Table
-AAA_Export = [Export_pt1, table(toad,avg_dElbExt,ElbExt_td,time_ElbExt_to,time_ElbExt_td,avg_dhLER_to,max_dhLER_to,dhLER_to,t_HLflexes,avg_belt_vel,takeoff_vel,jump_dist,Plant_act_dur_to,Anc_ON_HLliftOff,Anc_act_dur_air)];
-% AAA_Export = [Export_pt1(1:i,:), table(toad,avg_dElbExt,ElbExt_td,time_ElbExt_to,time_ElbExt_td,avg_dhLER_to,max_dhLER_to,dhLER_to,t_HLflexes,avg_belt_vel,takeoff_vel,jump_dist)];
+% AAA_Export = [Export_pt1, table(toad,avg_dElbExt,ElbExt_td,time_ElbExt_to,time_ElbExt_td,avg_dhLER_to,max_dhLER_to,dhLER_to,t_HLflexes,avg_belt_vel,takeoff_vel,jump_dist,Plant_act_dur_to,Anc_ON_HLliftOff,Anc_act_dur_air)];
+AAA_Export = [Export_pt1, table(toad,Plant_act_dur_to,Anc_ON_HLliftOff,Anc_act_dur_air)];
 disp('Finished Analyzing ALL Trials!!!');
 
 %% Saving Output Files
@@ -654,9 +653,16 @@ Anc_thresh = A_rest_avg + 2*A_sd;
 
 % Activation of Anconeus
 Anc_Active = EMG_smooth(start_anc_act:last_anc_act,2) >= Anc_thresh;
-Anc_ON_touchdown = (find(Anc_Active,1,'first') + start_anc_act - 1)/10000 - 0.5 - times{1,4}; % time in seconds Anconeus turns ON relative to touchdown
-Anc_ON_HLliftOff = (find(Anc_Active,1,'first') + start_anc_act - 1)/10000 - 0.5 - times{1,3}; % time in seconds Anconeus turns ON relative to Hindlimb Takeoff
-Anc_act_dur_air = (find(Anc_Active,1,'last') - find(Anc_Active,1,'first'))/10000; % duration of activity in seconds
+if start_anc_act >= times{1,3}*10000+5000 % when initial activation of anconeus was marked after takeoff
+    idx_Anc_activates = find(EMG_smooth(start_anc_act:last_anc_act,2) >= Anc_thresh,1,"first") + (start_anc_act - 1); % when anconeus first activates following hindlimb liftoff (assuming inactive before HL liftoff)
+    Anc_Active_air = EMG_smooth(start_anc_act:last_anc_act,2) >= Anc_thresh; % use that marker
+else % initial activation of anconeus was marked prior to hindlimb takeoff & we only care about aerial phase & just prior to takeoff
+    idx_last_inactive = find(EMG_smooth(1:round(times{1,3}*10000+5000,0),2) < Anc_thresh,1,"last"); % index where muscle is last inactive prior to takeoff
+    idx_Anc_activates = idx_last_inactive + 1;
+    Anc_Active_air = EMG_smooth(round(times{1,3}*10000+5000,0):last_anc_act,2) >= Anc_thresh;
+end
+Anc_ON_HLliftOff = (idx_Anc_activates)/10000 - 0.5 - times{1,3}; % time in seconds Anconeus turns ON relative to Hindlimb Takeoff
+Anc_act_dur_air = (find(Anc_Active_air,1,'last') - find(Anc_Active_air,1,'first'))/10000; % duration of activity in seconds
 
 end
 
