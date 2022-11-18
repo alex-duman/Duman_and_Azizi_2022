@@ -2,10 +2,10 @@
 Code repository for Duman and Azizi (submitted 2022) manuscript in the Journal of Experimental Biology.
 
 ## Table of Contents
-* [Installation](##Installation)
-* [Workflow](##-Workflow)
-* [Code Repository (GitHub)](##Code-Repository-GitHub)
-* [Data Deposition (Dryad)](##Data-Deposition-Dryad)
+* [Installation](#installation)
+* [Workflow](#workflow)
+* [Code Repository (GitHub)](#Code-Repository-GitHub)
+* [Data Deposition (Dryad)](#Data-Deposition-Dryad)
 
 ## Installation
 
@@ -13,7 +13,7 @@ Clone the repository to your device in order to use and reproduce the results fr
 
 If you want to regenerate the csv files containing the processed data you will need to download the raw data files from Dryad (see Data Deposition section below). You do not need to download the folder containing all video recordings to regenerate these files, but they are provided for your reference. Make sure the downloaded data folders (Digitized Files, Figures, Igor Files, and Reflex Data) are within the same directory that you cloned the directory to.
 
-[(Back to Top)](#Duman-and-Azizi-(Submitted-2022))
+[(Back to Top)](#Duman-and-Azizi-Submitted-2022)
 
 ## Workflow
 1. Start by running **Analyze_ALL_Reflex_Trials.m** to reproduce *Analyzed_Data_Reflex.csv* and get results of muscle stretch reflex experiment.
@@ -23,7 +23,7 @@ If you want to regenerate the csv files containing the processed data you will n
 5. Next, run **Seqential_Bonferroni.m** which uses Compiled_Statistics.xlsx to then create a ranking to determine the significance of the multiple statistical tests performed throughout the manuscript. To view the results check the variable *Seq_Bon_ranked*.
 6. Finally, to reproduce *Supplemental Figure 1* run the **Correlating_JumpDist_w_ElbExt_td.m** script.
 
-[(Back to Top)](#Duman-and-Azizi-(Submitted-2022))
+[(Back to Top)](#Duman-and-Azizi-Submitted-2022)
 
 ## Code Repository (GitHub)
 Below is a brief description of each file contained within the repository. More information including descriptions of specific inputs and outputs are provided within the files themselves.
@@ -118,13 +118,12 @@ Below is a brief description of each file contained within the repository. More 
 
 **t_muscle.mat** - mat file that contains the variable t_muscle which is a column-cell array where each row represents a different jump trial. Within each cell corresponding to a trial where muscle activity was recorded (trials in September 2020, 6 months post-reinnervation surgery) there exists a table with activation onset and offset for the two muscles of interest. This file is optional and you can delete it to try assigning your own onset and offset times for each muscle, however these values are necessary to replicate the results presented in the manuscript.
 
-
-
+[(Back to Top)](#Duman-and-Azizi-Submitted-2022)
 
 ## Data Deposition (Dryad)
 All the necessary data files to perform analyses and produce the results, figures and tables from the manuscipt can be found in this deposition. To access the code necessary to generate the results visit: https://github.com/alex-duman/Duman_and_Azizi_2022
 
-[(Back to Top)](#Duman-and-Azizi-(Submitted-2022))
+[(Back to Top)](#Duman-and-Azizi-Submitted-2022)
 
 ### Folders, Data Files & Descriptions
 **Digitized Files** - contains the 3D coordinates of the toad's limbs for each continuous hopping trial. There are two files corresponding to each trial, the first having the trial name followed by '_xyzpts' and the second having '_TH_xyzpts' as the suffix to the trial name (e.g. Rmar01_01_xyzpts.csv & Rmar01_01_TH_xyzpts.csv). Data in this folder are used to perform statistical analyses and create the figures, tables and results for the manuscript.
@@ -180,4 +179,4 @@ All the necessary data files to perform analyses and produce the results, figure
 **Videos > Muscle Stretch Reflex** - contains subfolders that hold videos (.avi files) for each time the muscle stretch reflex was measured (e.g. Pre-surgery, Sham-surgery (1 week), Post-mortem, etc.). All of these videos were filmed at 1964 fps.
 * **TrialName.avi** - (ex: Post-mortem > Rmar_01_d1.avi) the video recording of the muscle stretch reflex test on the plantaris muscle (ankle extensor). Videos were recorded for 1 second at a frame rate of 1964 fps.
 
-[(Back to Top)](#Duman-and-Azizi-(Submitted-2022))
+[(Back to Top)](#Duman-and-Azizi-Submitted-2022)
