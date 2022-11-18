@@ -4,8 +4,8 @@ Code repository for Duman and Azizi (submitted 2022) manuscript in the Journal o
 ## Table of Contents
 * [Installation](##Installation)
 * [Workflow](##-Workflow)
-* [Code Repository (GitHub)](##Code-Repository-(GitHub))
-* [Data Deposition (Dryad)](##Data-Deposition-(Dryad))
+* [Code Repository (GitHub)](##Code-Repository-GitHub)
+* [Data Deposition (Dryad)](##Data-Deposition-Dryad)
 
 ## Installation
 
